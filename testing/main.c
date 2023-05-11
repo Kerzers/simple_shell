@@ -1,8 +1,8 @@
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
 
-
-char **split_str(char *str, char *delim);
+void split_str(char **str);
 
 /**
  *
@@ -12,11 +12,8 @@ char **split_str(char *str, char *delim);
 int main(void)
 {
         char *str = "Hello world !";
-        char *delim = " ";
-        char **words;
 
-        words = split_str(str, delim);
-        printf("%s\n", words[0]);
+	split_str(&str);
 
 	return (0);
 }
@@ -27,19 +24,14 @@ int main(void)
  *@delim: a set of bytes that delimit the tokens in the parsed string
  *Return: an array of each word of the string.
  */
-char **split_str(char *str, char *delim)
+void split_str(char **str)
 {
-        char **word = NULL;
-        int i = 0;
+        char *word;
 
-	word = malloc(100 * sizeof(char *));
-
-        word[i] = strtok(str, delim);
-        while (word[i])
+	word = strtok(*str, " ");
+        while (word)
         {
-		i++;
-                word[i] = strtok(NULL, delim);
+		printf("%s\n", word);
+                word = strtok(NULL, " ");
         }
-
-	return (word);
 }
