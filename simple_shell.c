@@ -9,69 +9,64 @@
 
 int main(int ac, char **argv)
 {
-        ssize_t n;
-        size_t size = 0;
-        char *buffer = NULL;
-	pid_t cpid;
-	char *argv[2];
-	int status;
+	const char *usage = "usage: ";
+
+	(void)argv;
 
 	if (ac == 1)
 	{
-		interactive(argv[0]);
-	}
-	
-	
-	while (1)
-	{
-		printf("#cisfun$ ");
-		n = getline(&buffer, &size, stdin);
-		if (n == -1)
-                break;
-	argv[0] =strtok(buffer, "\n");
-	argv[1] = NULL;
-	cpid = fork();
-	if (cpid == -1)
-	{
-		perror("Error");
-		break;
-	}else if (cpid == 0)
-	{
-		if (execve(argv[0], argv, NULL) == -1)
-    		{
-        	perror("Error:");
-		break;
- 		}
+		interactive();
 	}
 	else
-		wait(&status);
+	{
+		write(STDOUT_FILENO, usage, 7);
 	}
-        free(buffer);
-        return (0);
 
+	return (0);
 }
 
 /**
  *interactive - for the intercative mode
  */
 
-void interactive(char *cmd)
+void interactive(void)
 {
-	char *prompt = "#s_shell$ ";
-	int n;
-	char *buffer = NULL, *cmdCpy;
+	const char *prompt = "#s_shell$ ";
+	int n, status;
+	char *buffer = NULL;
+	char *argv[2];
 	size_t size = 0;
+	pid_t cpid;
 
 	while (1)
 	{
-		write(STDOUT_FILENO, prompt, 9);
+		write(STDOUT_FILENO, prompt, 10);
 		n = getline(&buffer, &size, stdin);
 		if (n == -1)
 		{
 			perror("User input");
-			exit(1);
+			break;
 		}
 
-		_strcpy(cmdCpy, cmd);
+		argv[0] = strtok(buffer, "\n");
+		argv[1] = NULL;
+		cpid = fork(); /*Child process creation*/
+
+		if (cpid == -1)
+		{
+			perror("Child process error");
+			break;
+		}
+		else if (cpid == 0)
+		{
+			if (execve(argv[0], argv, NULL) == -1)
+			{
+				perror(arg);
+				break;
+			}
+		}
+		else
+			wait(&status);
 	}
+	free(buffer);
 }

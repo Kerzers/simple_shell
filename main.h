@@ -18,12 +18,13 @@
  * @next: points to the next directory in the path
  */
 
-
-typedef struct path-dir
+/*typedef struct path-dir
 {
         char *dir;
         struct path-dir *next;
-} dir_t;
+} dir_t;*/
 
+void interactive(void);
 int _putchar(char c);
+char *_strcpy(char *dest, char *src);
 #endif /* MAIN_H */
