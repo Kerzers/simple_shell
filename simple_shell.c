@@ -2,7 +2,7 @@
 
 /**
  * main - the main function of the program
- * @ac: the  number of arguments passed .to the program call
+ * @ac: the  number of arguments passed to the program call
  * @argv: string array containing the program name and args
  * Return: always 0
  */
@@ -15,7 +15,7 @@ int main(int ac, char **argv)
 
 	if (ac == 1)
 	{
-		interactive();
+		interactive(argv[0]);
 	}
 	else
 	{
@@ -26,10 +26,11 @@ int main(int ac, char **argv)
 }
 
 /**
- *interactive - for the intercative mode
+ * interactive - for the intercative mode
+ * @str: name of the program
  */
 
-void interactive(void)
+void interactive(char *str)
 {
 	const char *prompt = "#s_shell$ ";
 	int n, status;
@@ -61,7 +62,7 @@ void interactive(void)
 		{
 			if (execve(argv[0], argv, NULL) == -1)
 			{
-				perror(arg);
+				perror(str);
 				break;
 			}
 		}

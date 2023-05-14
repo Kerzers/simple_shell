@@ -24,7 +24,7 @@
         struct path-dir *next;
 } dir_t;*/
 
-void interactive(void);
+void interactive(char *str);
 int _putchar(char c);
 char *_strcpy(char *dest, char *src);
 #endif /* MAIN_H */
