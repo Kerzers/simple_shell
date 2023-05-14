@@ -17,6 +17,7 @@
  * @next: points to the next directory in the path
  */
 
+
 typedef struct path-dir
 {
         char *dir;
