@@ -40,11 +40,9 @@ int main(int ac, char **argv)
 void non_interactive(char *str)
 {
 	ssize_t n;
-	int status;
 	char *buffer = NULL;
 	char *argv[2];
 	size_t size = 0;
-	pid_t cpid;
 
 	n = getline(&buffer, &size, stdin);
 	if (n == -1)
@@ -52,17 +50,7 @@ void non_interactive(char *str)
 
 	argv[0] = strtok(buffer, "\n");
 	argv[1] = NULL;
-
-	cpid = fork(); /*Child process creation*/
-	if (cpid == -1)
-		perror(str);
-	if (cpid == 0)
-	{
-		if (execve(argv[0], argv, NULL) == -1)
-			perror(str);
-	}
-	else
-		wait(&status);
+	processes(str, argv);
 	free(buffer);
 }
 
