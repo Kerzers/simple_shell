@@ -26,6 +26,7 @@
 
 void interactive(char *str);
 void non_interactive(char *str);
+int processes(char *str, char **argv);
 int _putchar(char c);
 char *_strcpy(char *dest, char *src);
 #endif /* MAIN_H */
