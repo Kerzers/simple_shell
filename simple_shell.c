@@ -45,7 +45,7 @@ void interactive(char *str)
 		n = getline(&buffer, &size, stdin);
 		if (n == -1)
 		{
-			perror("User input");
+			_putchar('\n');
 			break;
 		}
 
@@ -55,7 +55,7 @@ void interactive(char *str)
 
 		if (cpid == -1)
 		{
-			perror("Child process error");
+			perror(str);
 			break;
 		}
 		else if (cpid == 0)
