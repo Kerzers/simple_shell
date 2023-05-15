@@ -25,6 +25,7 @@
 } dir_t;*/
 
 void interactive(char *str);
+void non_interactive(char *str);
 int _putchar(char c);
 char *_strcpy(char *dest, char *src);
 #endif /* MAIN_H */
