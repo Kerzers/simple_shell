@@ -9,9 +9,8 @@
 
 int main(int ac, char **argv)
 {
-	const char *usage = "usage: ";
+	/*const char *usage = "usage: ";*/
 
-	(void)argv;
 
 	if (isatty(STDIN_FILENO))
 	{
@@ -19,9 +18,10 @@ int main(int ac, char **argv)
 		{
 			interactive(argv[0]);	
 		}
-		else
+		if (ac > 1)	
 		{
-			write(STDOUT_FILENO, usage, 7);	
+			argv++;
+			processes(argv[0], argv);
 		}
 	}
 	else
