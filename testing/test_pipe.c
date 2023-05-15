@@ -6,9 +6,9 @@
 
 int main(int ac, char **argv)
 {
-	int fd;
-	char *buffer;
-	ssize_t n;
+	char *buffer = NULL;
+	size_t n = 0;
+	ssize_t br;
 
 	(void)ac;
 	if (isatty(0))
@@ -17,17 +17,21 @@ int main(int ac, char **argv)
 	}
 	else
 	{
-		fd = open(stdin, O_RDONLY);
-		if (fd == -1)
+		br = getline(&buffer, &n, stdin);
+		if (br  == -1)
 		{
-			perror(argv[0]);
+			return (0);
 		}
-	buffer = malloc(sizeof(char) * 1024);
+		else
+		{
+			printf("%s", buffer);
+		}
+	/*buffer = malloc(sizeof(char) * 1024);
 	if (buffer == NULL)
 		return (0);
 	read(fd, buffer, 1024);
 
-		printf("%s %s\n", argv[0], buffer);
+		printf("%s %s\n", argv[0], buffer);*/
 	}
 	return (0);
 }
