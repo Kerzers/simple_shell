@@ -77,16 +77,16 @@ void interactive(char *str)
 			_putchar('\n');
 			break;
 		}
-		argv[0] = strtok(buffer, "\t\n");
+		argv[0] = strtok(buffer, " \t\n");
 		abs_path = handle_path(argv[0]);
 		printf("%s\n", abs_path);
-		if (abs_path)
+		if (!abs_path)
 		{
-			perror("Command not found");
+			perror(str);
 		}
 		else
 		{	
-		argv[0] = strdup(abs_path);
+		argv[0] = abs_path;
 		argv[1] = NULL;
 		if (!argv[0])
 		{
@@ -136,7 +136,7 @@ int processes(char *str, char **argv)
  *@str: the command
  *Return: pointer to the absolute path of the command (success), NULL (failure)
  */
-char *handle_path(char *str)
+char *handle_path(char *cmd)
 {
 	char *abs_path = NULL,*_path = NULL;
 	char slach[2] = "/";
@@ -144,21 +144,24 @@ char *handle_path(char *str)
 	const char *path;
 	dir_t *head = NULL;
 
-	if (stat(str, &st) == 0)
-		return (NULL);
+	if (stat(cmd, &st) == 0)
+		return (cmd);
 	path = _getenv("PATH");
 	printf("%s\n", path);
 	head = path_dir_ls(path); /* builds a linked list of PATH directories*/
-	print_list(head);
+	/*print_list(head);*/
 	while (head)
 	{
 		_path = strcat(head->dir, slach);
 		printf("%s\n", _path);
-		abs_path = strcat(_path, str);
+		abs_path = strcat(_path, cmd);
 		printf("%s\n", abs_path);
 		if (stat(abs_path, &st) == 0)
-			return (NULL);
+		{	printf("%s\n", abs_path);
+			free_list(head);
+			return (abs_path);
+		}
 	head = head->next;
 	}
-	return (abs_path);
+	return (NULL);
 }
