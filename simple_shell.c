@@ -154,7 +154,7 @@ char *handle_path(char *cmd)
 	{
 		_path = strcat(head->dir, slach);
 		printf("%s\n", _path);
-		abs_path = strcat(_path, cmd);
+		abs_path = strdup(strcat(_path, cmd));
 		printf("%s\n", abs_path);
 		if (stat(abs_path, &st) == 0)
 		{	printf("%s\n", abs_path);
