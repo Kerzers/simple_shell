@@ -16,7 +16,7 @@ dir_t *add_node_end(dir_t **head, const char *str)
 	new = malloc(sizeof(dir_t));
 	if (new == NULL)
 		return (NULL);
-	new->str = strdup(str);
+	new->dir = strdup(str);
 	new->next = NULL;
 	if (*head == NULL)
 	{
