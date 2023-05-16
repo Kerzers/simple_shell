@@ -12,21 +12,27 @@
 #include <sys/stat.h>
 #include <limits.h>
 
+extern char **environ;
+
 /**
- * struct path-dir - singly linked list of path's directories
+ * struct path_dir - singly linked list of path's directories
  * @dir: a directory in the path
  * @next: points to the next directory in the path
  */
 
-/*typedef struct path-dir
+typedef struct path_dir
 {
         char *dir;
-        struct path-dir *next;
-} dir_t;*/
+        struct path_dir *next;
+} dir_t;
 
 void interactive(char *str);
 void non_interactive(char *str);
 int processes(char *str, char **argv);
 int _putchar(char c);
+char *handle_path(char *str);
+dir_t *path_dir_ls(const char *path);
+dir_t *add_node_end(dir_t **head, const char *str);
+char *_getenv(const char *name);
 char *_strcpy(char *dest, char *src);
 #endif /* MAIN_H */

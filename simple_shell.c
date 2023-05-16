@@ -65,6 +65,7 @@ void interactive(char *str)
 	int n;
 	char *buffer = NULL;
 	char *argv[2];
+	char *abs_path = NULL;
 	size_t size = 0;
 
 	while (1)
@@ -76,8 +77,15 @@ void interactive(char *str)
 			_putchar('\n');
 			break;
 		}
-
 		argv[0] = strtok(buffer, "\t\n");
+		abs_path = handle_path(argv[0]);
+		if (abs_path)
+		{
+			perror("Command not found");
+		}
+		else
+		{	
+		argv[0] = strdup(abs_path);
 		argv[1] = NULL;
 		if (!argv[0])
 		{
@@ -87,6 +95,7 @@ void interactive(char *str)
 			if (!processes(str, argv))
 				break;
 		}
+		}
 	}
 	free(buffer);
 }
@@ -95,7 +104,7 @@ void interactive(char *str)
  * processes - starts and ends parent and child processes
  * @str: the name of the program
  * @argv: array containing the commands and args
- * Return: 1=success, 0 = failure
+ * Return: 1 = success, 0 = failure
  */
 
 int processes(char *str, char **argv)
@@ -120,4 +129,34 @@ int processes(char *str, char **argv)
 	else
 		wait(&status);
 	return (1);
+}
+/**
+ *handle_path - checks if the command exists
+ *@str: the command
+ *Return: pointer to the absolute path of the command (success), NULL (failure)
+ */
+char *handle_path(char *str)
+{
+	char *abs_path = NULL,*_path = NULL;
+	char slach[2] = "/";
+	struct stat st;
+	const char *path;
+	dir_t *head = NULL;
+
+	if (stat(str, &st) == 0)
+		return (NULL);
+	path = _getenv("PATH");
+	printf("%s\n", path);
+	head = path_dir_ls(path); /* builds a linked list of PATH directories*/
+	while (head)
+	{
+		_path = strcat(head->dir, slach);
+		printf("%s\n", _path);
+		abs_path = strcat(_path, str);
+		printf("%s\n", abs_path);
+		if (stat(abs_path, &st) == 0)
+			return (NULL);
+	head = head->next;
+	}
+	return (abs_path);
 }
