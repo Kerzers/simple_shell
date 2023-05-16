@@ -79,6 +79,7 @@ void interactive(char *str)
 		}
 		argv[0] = strtok(buffer, "\t\n");
 		abs_path = handle_path(argv[0]);
+		printf("%s\n", abs_path);
 		if (abs_path)
 		{
 			perror("Command not found");
@@ -148,6 +149,7 @@ char *handle_path(char *str)
 	path = _getenv("PATH");
 	printf("%s\n", path);
 	head = path_dir_ls(path); /* builds a linked list of PATH directories*/
+	print_list(head);
 	while (head)
 	{
 		_path = strcat(head->dir, slach);

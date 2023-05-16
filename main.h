@@ -31,6 +31,7 @@ void non_interactive(char *str);
 int processes(char *str, char **argv);
 int _putchar(char c);
 char *handle_path(char *str);
+size_t print_list(const dir_t *h);
 dir_t *path_dir_ls(const char *path);
 dir_t *add_node_end(dir_t **head, const char *str);
 char *_getenv(const char *name);
