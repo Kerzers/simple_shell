@@ -27,6 +27,7 @@ typedef struct path_dir
 } dir_t;
 
 void interactive(char *str);
+int tokenCount(char *str);
 void non_interactive(char *str);
 int processes(char *str, char **argv);
 int _putchar(char c);

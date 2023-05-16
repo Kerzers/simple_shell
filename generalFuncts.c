@@ -1,6 +1,52 @@
 #include "main.h"
 
 /**
+ * tokenizer - prepares the array of commands and arguments
+ * @buffer: contains the string...
+ * @count: number of tkens in the string
+ * Returns: array of commands and argmuments
+ */
+
+char **tokenizer(char *buffer, int count)
+{
+	char **argv;
+	char *token;
+	int c;
+
+	c = tokenCount(buffer);
+	if (c == 0)
+		return(NULL);
+	argv = malloc(sizeof(char *) * (c + 1));
+	if (argv == NULL)
+		return(NULL);
+
+	token = strtok();
+}
+
+/**
+ * tokenCount
+ *  - counts the number of tokens produced form a string
+ *  @str: the string thta geneartes the tokens
+ *  Return: the number of tokens generated
+ */
+
+int tokenCount(char *str)
+{
+	int count = 0;
+	char *token;
+
+	token  = strtok(strdup(str), " \t\n");
+	if (token)
+	{
+		count++;
+		token = strtok(NULL, " \t\n");
+	}
+	else
+		return (count);
+	return (count);
+}
+
+/**
  *_strcpy - copies the string pointed to by src to the
  * buffer pointed to by dest
  *@dest: pointer as a parameter
