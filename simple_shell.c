@@ -62,7 +62,7 @@ void non_interactive(char *str)
 void interactive(char *str)
 {
 	const char *prompt = "#s_shell$ ";
-	int n, num, a;
+	int n, i = 0;
 	char *buffer = NULL;
 	char **argv;
 	char *abs_path = NULL;
@@ -77,34 +77,47 @@ void interactive(char *str)
 			_putchar('\n');
 			break;
 		}
-		num = tokenCount(buffer);
-		argv = tokenizer(buffer, num);
 
-		for (a = 0; a < (num + 1); a++)
+		argv = tokenizer(buffer);
+		for(i = 0; i < 4; i++)
 		{
-			argv[a] = malloc(sizeof(char *) * );
+			printf("\n***%s***\n", argv[i]);
 		}
 
-		argv[0] = strtok(buffer, " \t\n");
 		abs_path = handle_path(argv[0]);
-		printf("%s\n", abs_path);
+		printf("%s...\n", abs_path);
 		if (!abs_path)
 		{
 			perror(str);
 		}
 		else
-		{	
-		argv[0] = abs_path;
-		argv[1] = NULL;
+		{
+			free(argv[0]);
+			argv[0] = malloc(sizeof(char) * myStrLen(abs_path) + 1);
+			if (argv[0])
+			{
+				_strcpy(argv[0], abs_path);
+			printf("\n%s+++\n", argv[1]);
+			}
+			else
+			{
+				perror(str);
+				_freeStr(argv, tokenCount(buffer));
+				break;
+			}
+		}
 		if (!argv[0])
 		{
 		}
 		else
 		{
 			if (!processes(str, argv))
+			{
+				_freeStr(argv, tokenCount(buffer));
 				break;
+			}
 		}
-		}
+		_freeStr(argv, tokenCount(buffer));
 	}
 	free(buffer);
 }

@@ -1,26 +1,67 @@
 #include "main.h"
 
 /**
+ * myStrLen - returns the length of a string
+ * @str: the string ti0 be counted
+ * Return: the length of the string in question
+ */
+
+int myStrLen(char *str)
+{
+	char *theStr = str;
+	int n = 0;
+
+	if (str == NULL)
+		return (0);
+
+	while (*theStr)
+	{
+		n++;
+		theStr++;
+	}
+
+	return (n);
+}
+
+/**
  * tokenizer - prepares the array of commands and arguments
  * @buffer: contains the string...
- * @count: number of tkens in the string
  * Returns: array of commands and argmuments
  */
 
-char **tokenizer(char *buffer, int count)
+char **tokenizer(char *buffer)
 {
 	char **argv;
 	char *token;
-	int c;
+	int c, i = 0;
 
 	c = tokenCount(buffer);
 	if (c == 0)
 		return(NULL);
+	printf("\n%d\n", c);
 	argv = malloc(sizeof(char *) * (c + 1));
 	if (argv == NULL)
 		return(NULL);
 
-	token = strtok();
+	token = strtok(buffer, " \n\t");
+
+	for (i = 0; token || i < c; i++)
+	{
+		argv[i] = malloc(sizeof(char) * (myStrLen(token) + 1));
+		if (!argv[i])
+		{
+			for(; i >= 0; i--)
+				free(argv[i]);
+			free(argv);
+			return (NULL);
+		}
+		_strcpy(argv[i], token);
+		printf("\n%s\n", argv[i]);
+		token = strtok(NULL, " \t\n");
+	}
+	printf("\n%d\n", c);
+	argv[i] = NULL;
+	return (argv);
 }
 
 /**
@@ -33,16 +74,21 @@ char **tokenizer(char *buffer, int count)
 int tokenCount(char *str)
 {
 	int count = 0;
-	char *token;
+	char *token, *tmp;
 
-	token  = strtok(strdup(str), " \t\n");
-	if (token)
+	if (!str)
+		return (0);
+
+	tmp =  strdup(str);
+	token  = strtok(tmp, " \t\n");
+	while (token)
 	{
 		count++;
+		printf("%d %s\n", count, token);
 		token = strtok(NULL, " \t\n");
 	}
-	else
-		return (count);
+
+	free(tmp);
 	return (count);
 }
 
