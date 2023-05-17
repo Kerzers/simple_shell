@@ -141,12 +141,12 @@ int processes(char *str, char **argv)
 }
 /**
  *handle_path - checks if the command exists
- *@str: the command
+ *@cmd: the command
  *Return: pointer to the absolute path of the command (success), NULL (failure)
  */
 char *handle_path(char *cmd)
 {
-	char *abs_path = NULL,*_path = NULL;
+	char *abs_path = NULL, *_path = NULL;
 	char slach[2] = "/";
 	struct stat st;
 	const char *path;
@@ -157,7 +157,6 @@ char *handle_path(char *cmd)
 	path = _getenv("PATH");
 	printf("%s\n", path);
 	head = path_dir_ls(path); /* builds a linked list of PATH directories*/
-	/*print_list(head);*/
 	while (head)
 	{
 		_path = strcat(head->dir, slach);
@@ -171,5 +170,6 @@ char *handle_path(char *cmd)
 		}
 	head = head->next;
 	}
+	free_list(head);
 	return (NULL);
 }
