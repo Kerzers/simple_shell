@@ -80,46 +80,47 @@ void interactive(char *str)
 		}
 		if (*buffer != '\n')
 		{
-		argv = tokenizer(buffer);
-		if (argv)
-		{
-		/* tests if user doesn't give abs_path*/
-		if (stat(argv[0], &st) != 0)
-		{
-		abs_path = handle_path(argv[0]);
-		if (!abs_path)
-		{
-			perror(str);
-		}
-		else
-		{
-			free(argv[0]);
-			argv[0] = malloc(sizeof(char) * myStrLen(abs_path) + 1);
-			if (argv[0])
+			argv = tokenizer(buffer);
+			if (argv)
 			{
-				_strcpy(argv[0], abs_path);
-			}
-			else
-			{
-				perror(str);
+				/* tests if user doesn't give abs_path*/
+				if (stat(argv[0], &st) != 0)
+				{
+					abs_path = handle_path(argv[0]);
+					if (!abs_path)
+					{
+						perror(str);
+						_freeStr(argv, tokenCount(buffer));
+					}
+					else
+					{
+						free(argv[0]);
+						argv[0] = malloc(sizeof(char) * myStrLen(abs_path) + 1);
+						if (argv[0])
+						{
+							_strcpy(argv[0], abs_path);
+						}
+						else
+						{
+							perror(str);
+							_freeStr(argv, tokenCount(buffer));
+							break;
+						}
+					}
+				}
+				if (!argv[0])
+				{
+				}
+				else
+				{
+					if (!processes(str, argv))
+					{
+						_freeStr(argv, tokenCount(buffer));
+						break;
+					}
+				}
 				_freeStr(argv, tokenCount(buffer));
-				break;
 			}
-		}
-		}
-		if (!argv[0])
-		{
-		}
-		else
-		{
-			if (!processes(str, argv))
-			{
-				_freeStr(argv, tokenCount(buffer));
-				break;
-			}
-		}
-		_freeStr(argv, tokenCount(buffer));
-		}
 		}
 	}
 	free(buffer);
