@@ -78,8 +78,11 @@ void interactive(char *str)
 			_putchar('\n');
 			break;
 		}
-
+		if (*buffer != '\n')
+		{
 		argv = tokenizer(buffer);
+		if (argv)
+		{
 		num = tokenCount(buffer);
 		printf("token count:%d\n", num);
 		printf("buffer: %s\n", buffer);
@@ -126,6 +129,8 @@ void interactive(char *str)
 			}
 		}
 		_freeStr(argv, tokenCount(buffer));
+		}
+		}
 	}
 	free(buffer);
 }
