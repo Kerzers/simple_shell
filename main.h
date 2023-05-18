@@ -36,11 +36,12 @@ size_t print_list(const dir_t *h);
 dir_t *path_dir_ls(const char *path);
 void free_list(dir_t *head);
 char **tokenizer(char *buffer);
-int myStrLen(char *str);
+int myStrLen(const char *str);
 void _freeStr(char **mem, int n);
 dir_t *add_node_end(dir_t **head, const char *str);
 char *_getenv(const char *name);
 char *_strdup(char *src);
 char *_strcat(char *dest, char *src);
 char *_strcpy(char *dest, char *src);
+int _strcmp(const char *s1, const char *s2);
 #endif /* MAIN_H */

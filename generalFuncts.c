@@ -19,7 +19,7 @@ char **tokenizer(char *buffer)
 	if (argv == NULL)
 		return(NULL);
 	tmp = strdup(buffer);
-	token = strtok(tmp, " \n\t");
+	token = strtok(tmp, " \"\n\t");
 
 	for (i = 0; token || i < c; i++)
 	{
@@ -32,7 +32,7 @@ char **tokenizer(char *buffer)
 			return (NULL);
 		}
 		_strcpy(argv[i], token);
-		token = strtok(NULL, " \t\n");
+		token = strtok(NULL, " \"\t\n");
 	}
 	argv[i] = NULL;
 	free(tmp);
@@ -55,11 +55,11 @@ int tokenCount(char *str)
 		return (0);
 
 	tmp =  strdup(str);
-	token  = strtok(tmp, " \t\n");
+	token  = strtok(tmp, " \t\n\"");
 	while (token)
 	{
 		count++;
-		token = strtok(NULL, " \t\n");
+		token = strtok(NULL, " \"\t\n");
 	}
 
 	free(tmp);
@@ -83,7 +83,7 @@ char *_getenv(const char *name)
 	{
 		tmp = _strdup(env[i]);
 		token = strtok(tmp,"=");
-		if (strcmp(name,token) == 0)
+		if (_strcmp(name,token) == 0)
 		{
 			token = strtok(NULL, "");
 			token = _strdup(token);

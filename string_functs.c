@@ -24,9 +24,9 @@ char *_strcpy(char *dest, char *src)
  * Return: the length of the string in question
  */
 
-int myStrLen(char *str)
+int myStrLen(const char *str)
 {
-	char *theStr = str;
+	const char *theStr = str;
 	int n = 0;
 
 	if (str == NULL)
@@ -80,4 +80,33 @@ char *_strdup(char *src)
 		return (NULL);
 	_strcpy(dest, src);
 	return (dest);
+}
+
+/**
+ * _strcmp - compares two strings to see if they are the same
+ * @s1: the one str
+ * @s2: the other str
+ * Return: the result
+ */
+int _strcmp(const char *s1, const char *s2)
+{
+	int i = 0;
+
+	if (s1 == NULL || s2 == NULL)
+		return (-1);
+
+	if (myStrLen(s2) != myStrLen(s1))
+		return (-1);
+
+
+	while (s1[i] && s2[i])
+	{
+		if (s1[i] == s2[i])
+		{
+			i++;
+		}
+		else
+			return (-1);
+	}
+	return (0);
 }
