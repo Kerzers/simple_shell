@@ -23,7 +23,7 @@ void free_list(dir_t *head)
  *@str: string to be duplicated
  *Return: a pointer to the new element, or NULL if it failed
  */
-dir_t *add_node_end(dir_t **head, const char *str)
+dir_t *add_node_end(dir_t **head, char *str)
 {
 	dir_t *new = NULL;
 	dir_t *last = *head;
@@ -31,7 +31,7 @@ dir_t *add_node_end(dir_t **head, const char *str)
 	new = malloc(sizeof(dir_t));
 	if (new == NULL)
 		return (NULL);
-	new->dir = strdup(str);
+	new->dir = _strdup(str);
 	new->next = NULL;
 	if (*head == NULL)
 	{
@@ -51,7 +51,7 @@ dir_t *add_node_end(dir_t **head, const char *str)
 dir_t *path_dir_ls(const char *path)
 {
 	dir_t *head = NULL;
-	const char *token;
+	char *token;
 
 
        	token = strtok((char *)path, ":");

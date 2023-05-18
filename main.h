@@ -15,7 +15,7 @@
 extern char **environ;
 
 /**
- * struct path_dir - singly linked list of path's directories
+ * struct path_dir - singly linked list of path directories
  * @dir: a directory in the path
  * @next: points to the next directory in the path
  */
@@ -38,7 +38,7 @@ void free_list(dir_t *head);
 char **tokenizer(char *buffer);
 int myStrLen(const char *str);
 void _freeStr(char **mem, int n);
-dir_t *add_node_end(dir_t **head, const char *str);
+dir_t *add_node_end(dir_t **head, char *str);
 char *_getenv(const char *name);
 char *_strdup(char *src);
 char *_strcat(char *dest, char *src);

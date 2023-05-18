@@ -172,18 +172,22 @@ char *handle_path(char *cmd)
 	/*if (stat(cmd, &st) == 0)
 	*	return (cmd);*/
 	path = _getenv("PATH");
-	head = path_dir_ls(path); /* builds a linked list of PATH directories*/
-	while (head)
+	if (path)
 	{
-		_path = strcat(head->dir, slach);
-		abs_path = strdup(strcat(_path, cmd));
-		if (stat(abs_path, &st) == 0)
+		head = path_dir_ls(path); /* builds a linked list of PATH directories*/
+		while (head)
 		{
-			free_list(head);
-			return (abs_path);
+			_path = _strcat(head->dir, slach);
+			abs_path = _strdup(_strcat(_path, cmd));
+			if (stat(abs_path, &st) == 0)
+			{
+				free_list(head);
+				return (abs_path);
+			}
+			head = head->next;
 		}
-	head = head->next;
+		free_list(head);
 	}
-	free_list(head);
+
 	return (NULL);
 }

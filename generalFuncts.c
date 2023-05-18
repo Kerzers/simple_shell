@@ -18,7 +18,7 @@ char **tokenizer(char *buffer)
 	argv = malloc(sizeof(char *) * (c + 1));
 	if (argv == NULL)
 		return(NULL);
-	tmp = strdup(buffer);
+	tmp = _strdup(buffer);
 	token = strtok(tmp, " \"\n\t");
 
 	for (i = 0; token || i < c; i++)
@@ -54,7 +54,7 @@ int tokenCount(char *str)
 	if (!str)
 		return (0);
 
-	tmp =  strdup(str);
+	tmp =  _strdup(str);
 	token  = strtok(tmp, " \t\n\"");
 	while (token)
 	{
