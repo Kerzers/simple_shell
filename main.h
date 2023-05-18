@@ -40,5 +40,7 @@ int myStrLen(char *str);
 void _freeStr(char **mem, int n);
 dir_t *add_node_end(dir_t **head, const char *str);
 char *_getenv(const char *name);
+char *_strdup(char *src);
+char *_strcat(char *dest, char *src);
 char *_strcpy(char *dest, char *src);
 #endif /* MAIN_H */
