@@ -62,7 +62,7 @@ void non_interactive(char *str)
 void interactive(char *str)
 {
 	const char *prompt = "#s_shell$ ";
-	int n, i = 0, num = 0;
+	int n;
 	char *buffer = NULL;
 	char **argv;
 	char *abs_path = NULL;
@@ -83,19 +83,10 @@ void interactive(char *str)
 		argv = tokenizer(buffer);
 		if (argv)
 		{
-		num = tokenCount(buffer);
-		printf("token count:%d\n", num);
-		printf("buffer: %s\n", buffer);
-		for(i = 0; i < num + 1; i++)
-		{
-			printf("inside for\n");
-			printf("\n***%s***\n", argv[i]);
-		}
 		/* tests if user doesn't give abs_path*/
 		if (stat(argv[0], &st) != 0)
 		{
 		abs_path = handle_path(argv[0]);
-		printf("absolute path%s...\n", abs_path);
 		if (!abs_path)
 		{
 			perror(str);
@@ -107,7 +98,6 @@ void interactive(char *str)
 			if (argv[0])
 			{
 				_strcpy(argv[0], abs_path);
-			printf("\n%s+++\n", argv[0]);
 			}
 			else
 			{
@@ -181,16 +171,13 @@ char *handle_path(char *cmd)
 	/*if (stat(cmd, &st) == 0)
 	*	return (cmd);*/
 	path = _getenv("PATH");
-	printf("%s\n", path);
 	head = path_dir_ls(path); /* builds a linked list of PATH directories*/
 	while (head)
 	{
 		_path = strcat(head->dir, slach);
-		printf("%s\n", _path);
 		abs_path = strdup(strcat(_path, cmd));
-		printf("%s\n", abs_path);
 		if (stat(abs_path, &st) == 0)
-		{	printf("%s\n", abs_path);
+		{
 			free_list(head);
 			return (abs_path);
 		}

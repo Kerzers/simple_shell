@@ -12,11 +12,9 @@ char **tokenizer(char *buffer)
 	char *token, *tmp;
 	int c, i = 0;
 
-	printf("inside tokenizer beginning: buffer is %s\n",buffer);
 	c = tokenCount(buffer);
 	if (c == 0)
 		return(NULL);
-	printf("\n%d\n", c);
 	argv = malloc(sizeof(char *) * (c + 1));
 	if (argv == NULL)
 		return(NULL);
@@ -38,7 +36,6 @@ char **tokenizer(char *buffer)
 	}
 	argv[i] = NULL;
 	free(tmp);
-	printf("inside tokenizer end: buffer is %s\n",buffer);
 	return (argv);
 }
 
@@ -78,19 +75,23 @@ int tokenCount(char *str)
 char *_getenv(const char *name)
 {
 	char **env = environ;
+	char *tmp;
 	char *token;
 	int i = 0;
 
-
 	while (env[i])
 	{
-		token = strtok(env[i],"=");
+		tmp = _strdup(env[i]);
+		token = strtok(tmp,"=");
 		if (strcmp(name,token) == 0)
 		{
 			token = strtok(NULL, "");
+			token = _strdup(token);
+			free(tmp);
 			return (token);
 		}
 	i++;
 	}
+	free(tmp);
 	return (NULL);
 }
