@@ -76,7 +76,7 @@ void interactive(char *str)
 		if (n == -1)
 		{
 			_putchar('\n');
-			break;
+			exit(1);
 		}
 		if (*buffer != '\n')
 		{
@@ -84,6 +84,7 @@ void interactive(char *str)
 			if (argv)
 			{
 				/* tests if user doesn't give abs_path*/
+				/*find_path(argv)*/
 				if (stat(argv[0], &st) != 0)
 				{
 					abs_path = handle_path(argv[0]);
@@ -95,12 +96,8 @@ void interactive(char *str)
 					else
 					{
 						free(argv[0]);
-						argv[0] = malloc(sizeof(char) * myStrLen(abs_path) + 1);
-						if (argv[0])
-						{
-							_strcpy(argv[0], abs_path);
-						}
-						else
+						argv[0] = _strdup(abs_path);
+						if (!argv[0])
 						{
 							perror(str);
 							_freeStr(argv, tokenCount(buffer));
