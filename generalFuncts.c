@@ -95,3 +95,36 @@ char *_getenv(const char *name)
 	free(tmp);
 	return (NULL);
 }
+/**
+ *find_path - finds the absolute path of a cmd
+ *@argv: array string of command and args
+ *Return: 1 (success), otherwise 0
+ */
+int find_path(char **argv, char *buffer, char *str)
+{
+	char *abs_path;
+	struct stat st;
+
+	if (stat(argv[0], &st) != 0)
+	{
+		abs_path = handle_path(argv[0]);
+					if (!abs_path)
+					{
+						perror(str);
+						_freeStr(argv, tokenCount(buffer));
+						return (0);
+					}
+					else
+					{
+						free(argv[0]);
+						argv[0] = _strdup(abs_path);
+						if (!argv[0])
+						{
+							perror(str);
+							_freeStr(argv, tokenCount(buffer));
+							return (0);
+						}
+					}
+				}
+	return (1);
+}

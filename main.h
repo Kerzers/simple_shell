@@ -38,6 +38,7 @@ void free_list(dir_t *head);
 char **tokenizer(char *buffer);
 int myStrLen(const char *str);
 void _freeStr(char **mem, int n);
+int find_path(char **argv, char *buffer, char *str);
 dir_t *add_node_end(dir_t **head, char *str);
 char *_getenv(const char *name);
 char *_strdup(char *src);

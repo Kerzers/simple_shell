@@ -65,9 +65,7 @@ void interactive(char *str)
 	int n;
 	char *buffer = NULL;
 	char **argv;
-	char *abs_path = NULL;
 	size_t size = 0;
-	struct stat st;
 
 	while (1)
 	{
@@ -84,27 +82,8 @@ void interactive(char *str)
 			if (argv)
 			{
 				/* tests if user doesn't give abs_path*/
-				/*find_path(argv)*/
-				if (stat(argv[0], &st) != 0)
-				{
-					abs_path = handle_path(argv[0]);
-					if (!abs_path)
-					{
-						perror(str);
-						_freeStr(argv, tokenCount(buffer));
-					}
-					else
-					{
-						free(argv[0]);
-						argv[0] = _strdup(abs_path);
-						if (!argv[0])
-						{
-							perror(str);
-							_freeStr(argv, tokenCount(buffer));
-							break;
-						}
-					}
-				}
+				if (!find_path(argv, buffer, str))
+					break;
 				if (!argv[0])
 				{
 				}
