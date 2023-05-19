@@ -85,19 +85,16 @@ void interactive(char *str)
 		if (n == -1)
 		{
 			_putchar('\n');
-			exit(1);
+			break;
 		}
 		if (*buffer != '\n')
 		{
 			argv = tokenizer(buffer);
 			if (!argv)
-			{
-				perror(str);
-				break;
+			{		
 			}
-			if (argv)
+			else
 			{
-				/* tests if user doesn't give abs_path*/
 				if (!find_path(argv, buffer, str))
 					break;
 				if (!argv[0])
@@ -155,14 +152,12 @@ int processes(char *str, char **argv)
  */
 char *handle_path(char *cmd)
 {
-	char *abs_path = NULL, *_path = NULL;
+	char *abs_path = NULL, *tmp = NULL, *_path = NULL;
 	char slach[2] = "/";
 	struct stat st;
 	const char *path;
 	dir_t *head = NULL;
 
-	/*if (stat(cmd, &st) == 0)
-	*	return (cmd);*/
 	path = _getenv("PATH");
 	if (path)
 	{
@@ -170,7 +165,10 @@ char *handle_path(char *cmd)
 		while (head)
 		{
 			_path = _strcat(head->dir, slach);
-			abs_path = _strdup(_strcat(_path, cmd));
+			tmp = _strcat(_path, cmd);
+			abs_path = _strdup(tmp);
+			free(tmp);
+			free(_path);
 			if (stat(abs_path, &st) == 0)
 			{
 				free_list(head);

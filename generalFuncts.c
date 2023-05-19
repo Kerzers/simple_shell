@@ -126,8 +126,9 @@ int find_path(char **argv, char *buffer, char *str)
 							_freeStr(argv, tokenCount(buffer));
 							return (0);
 						}
+						else
+							free(abs_path);
 					}
-				}
-	free(abs_path);
+	}
 	return (1);
 }

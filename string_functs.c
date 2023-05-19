@@ -49,19 +49,23 @@ int myStrLen(const char *str)
 char *_strcat(char *dest, char *src)
 {
 	int i = 0;
-	int j;
+	int len1, len2;
+	char *final = NULL;
 
-	while (dest[i])
-	{
-		i++;
-	}
-	for (j = 0; src[j] != '\0'; j++)
-	{
-		dest[i] = src[j];
-		i++;
-	}
-	dest[i] = '\0';
-	return (dest);
+	if (!src || !dest)
+		return (NULL);
+	len1 = myStrLen(dest);
+	len2 = myStrLen(src);
+
+	final = malloc(sizeof(char) * (len1 + len2 + 1));
+	if (!final)
+		return (NULL);
+	for (i = 0; i < len1; i++)
+		final[i] = dest[i];
+	for (; i < len1 + len2; i++)
+		final[i] = src[i - len1];
+	final[len1 + len2] = '\0';
+	return (final);
 }
 /**
  * _strdup - duplicates a string
