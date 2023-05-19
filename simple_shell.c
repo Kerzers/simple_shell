@@ -56,8 +56,10 @@ void non_interactive(char *str)
 	else
 	{
 		if (find_path(argv, buffer, str))
+		{
 			processes(str, argv);
-		_freeStr(argv, tokenCount(buffer));
+			_freeStr(argv, tokenCount(buffer));
+		}
 	}
 	
 	free(buffer);
@@ -176,6 +178,7 @@ char *handle_path(char *cmd)
 			}
 			head = head->next;
 		}
+		free(abs_path);
 		free_list(head);
 	}
 

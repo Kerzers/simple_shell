@@ -110,6 +110,7 @@ int find_path(char **argv, char *buffer, char *str)
 		abs_path = handle_path(argv[0]);
 					if (!abs_path)
 					{
+						free(abs_path);
 						perror(str);
 						_freeStr(argv, tokenCount(buffer));
 						return (0);
@@ -120,11 +121,13 @@ int find_path(char **argv, char *buffer, char *str)
 						argv[0] = _strdup(abs_path);
 						if (!argv[0])
 						{
+							free(abs_path);
 							perror(str);
 							_freeStr(argv, tokenCount(buffer));
 							return (0);
 						}
 					}
 				}
+	free(abs_path);
 	return (1);
 }
