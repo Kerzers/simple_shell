@@ -41,16 +41,25 @@ void non_interactive(char *str)
 {
 	ssize_t n;
 	char *buffer = NULL;
-	char *argv[2];
+	char **argv;
 	size_t size = 0;
 
 	n = getline(&buffer, &size, stdin);
 	if (n == -1)
 		return;
 
-	argv[0] = strtok(buffer, "\n");
-	argv[1] = NULL;
-	processes(str, argv);
+	argv = tokenizer(buffer);
+	if (!argv)
+	{
+		perror(str);
+	}
+	else
+	{
+		if (find_path(argv, buffer, str))
+			processes(str, argv);
+		_freeStr(argv, tokenCount(buffer));
+	}
+	
 	free(buffer);
 }
 
@@ -79,6 +88,11 @@ void interactive(char *str)
 		if (*buffer != '\n')
 		{
 			argv = tokenizer(buffer);
+			if (!argv)
+			{
+				perror(str);
+				break;
+			}
 			if (argv)
 			{
 				/* tests if user doesn't give abs_path*/
