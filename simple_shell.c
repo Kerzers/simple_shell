@@ -20,7 +20,12 @@ int main(int ac, char **argv, char **env)
 		if (ac > 1)
 		{
 			argv++;
-			processes(argv[0], argv, env);
+			if (cmdLinePath(argv, argv[0]))
+			{
+				processes(argv[0], argv, env);
+			}
+			else
+				perror(argv[0]);
 		}
 	}
 	else

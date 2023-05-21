@@ -44,5 +44,6 @@ char *_getenv(const char *name);
 char *_strdup(char *src);
 char *_strcat(char *dest, char *src);
 char *_strcpy(char *dest, char *src);
+int cmdLinePath(char **argv, char *str);
 int _strcmp(const char *s1, const char *s2);
 #endif /* MAIN_H */
