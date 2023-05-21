@@ -13,7 +13,6 @@ char **tokenizer(char *buffer)
 	int c, i = 0;
 
 	c = tokenCount(buffer);
-	printf("c = %d\n", c);
 	if (c == 0)
 		return (NULL);
 	argv = malloc(sizeof(char *) * (c + 1));
