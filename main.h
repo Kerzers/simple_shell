@@ -26,10 +26,10 @@ typedef struct path_dir
         struct path_dir *next;
 } dir_t;
 
-void interactive(char *str);
+void interactive(char *str, char **env);
 int tokenCount(char *str);
-void non_interactive(char *str);
-int processes(char *str, char **argv);
+void non_interactive(char *str, char **env);
+int processes(char *str, char **argv, char **env);
 int _putchar(char c);
 char *handle_path(char *cmd);
 size_t print_list(const dir_t *h);

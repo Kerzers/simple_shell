@@ -3,7 +3,7 @@
 /**
  * tokenizer - prepares the array of commands and arguments
  * @buffer: contains the commands and args of the user
- * Returns: array of commands and arguments
+ * Return: array of commands and arguments, otherwise NULL
  */
 
 char **tokenizer(char *buffer)
@@ -14,10 +14,10 @@ char **tokenizer(char *buffer)
 
 	c = tokenCount(buffer);
 	if (c == 0)
-		return(NULL);
+		return (NULL);
 	argv = malloc(sizeof(char *) * (c + 1));
 	if (argv == NULL)
-		return(NULL);
+		return (NULL);
 	tmp = _strdup(buffer);
 	token = strtok(tmp, " \"\n\t");
 
@@ -26,7 +26,7 @@ char **tokenizer(char *buffer)
 		argv[i] = malloc(sizeof(char) * (myStrLen(token) + 1));
 		if (!argv[i])
 		{
-			for(; i >= 0; i--)
+			for (; i >= 0; i--)
 				free(argv[i]);
 			free(argv);
 			return (NULL);
@@ -40,10 +40,9 @@ char **tokenizer(char *buffer)
 }
 
 /**
- * tokenCount
- *  - counts the number of tokens produced form a string
- *  @str: the string thta geneartes the tokens
- *  Return: the number of tokens generated
+ * tokenCount - counts the number of tokens produced form a string
+ * @str: the string thta geneartes the tokens
+ * Return: the number of tokens generated
  */
 
 int tokenCount(char *str)
@@ -82,8 +81,8 @@ char *_getenv(const char *name)
 	while (env[i])
 	{
 		tmp = _strdup(env[i]);
-		token = strtok(tmp,"=");
-		if (_strcmp(name,token) == 0)
+		token = strtok(tmp, "=");
+		if (_strcmp(name, token) == 0)
 		{
 			token = strtok(NULL, "");
 			token = _strdup(token);
@@ -98,6 +97,8 @@ char *_getenv(const char *name)
 /**
  *find_path - finds the absolute path of a cmd
  *@argv: array string of command and args
+ *@buffer: line typed by the user
+ *@str: name of the program
  *Return: 1 (success), otherwise 0
  */
 int find_path(char **argv, char *buffer, char *str)
@@ -108,27 +109,27 @@ int find_path(char **argv, char *buffer, char *str)
 	if (stat(argv[0], &st) != 0)
 	{
 		abs_path = handle_path(argv[0]);
-					if (!abs_path)
-					{
-						free(abs_path);
-						perror(str);
-						_freeStr(argv, tokenCount(buffer));
-						return (0);
-					}
-					else
-					{
-						free(argv[0]);
-						argv[0] = _strdup(abs_path);
-						if (!argv[0])
-						{
-							free(abs_path);
-							perror(str);
-							_freeStr(argv, tokenCount(buffer));
-							return (0);
-						}
-						else
-							free(abs_path);
-					}
+		if (!abs_path)
+		{
+			free(abs_path);
+			perror(str); /* ./hsh : 1 :  argv[0]: not found*/
+			_freeStr(argv, tokenCount(buffer));
+			return (0);
+		}
+		else
+		{
+			free(argv[0]);
+			argv[0] = _strdup(abs_path);
+			if (!argv[0])
+			{
+				free(abs_path);
+				perror(str);
+				_freeStr(argv, tokenCount(buffer));
+				return (0);
+			}
+			else
+				free(abs_path);
+		}
 	}
 	return (1);
 }

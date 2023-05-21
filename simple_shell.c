@@ -4,40 +4,39 @@
  * main - the main function of the program
  * @ac: the  number of arguments passed to the program call
  * @argv: string array containing the program name and args
+ * @env: environment variable
  * Return: always 0
  */
 
-int main(int ac, char **argv)
+int main(int ac, char **argv, char **env)
 {
-	/*const char *usage = "usage: ";*/
-
 
 	if (isatty(STDIN_FILENO))
 	{
 		if (ac == 1)
 		{
-			interactive(argv[0]);	
+			interactive(argv[0], env);
 		}
-		if (ac > 1)	
+		if (ac > 1)
 		{
 			argv++;
-			processes(argv[0], argv);
+			processes(argv[0], argv, env);
 		}
 	}
 	else
 	{
-		non_interactive(argv[0]);
+		non_interactive(argv[0], env);
 	}
-
 	return (0);
 }
 
 /**
  * non_interactive - for the non interactive mode
  * @str: the command
+ * @env: environment variable
  */
 
-void non_interactive(char *str)
+void non_interactive(char *str, char **env)
 {
 	ssize_t n;
 	char *buffer = NULL;
@@ -57,20 +56,20 @@ void non_interactive(char *str)
 	{
 		if (find_path(argv, buffer, str))
 		{
-			processes(str, argv);
+			processes(str, argv, env);
 			_freeStr(argv, tokenCount(buffer));
 		}
 	}
-	
 	free(buffer);
 }
 
 /**
  * interactive - for the intercative mode
  * @str: name of the program
+ * @env: environment variable
  */
 
-void interactive(char *str)
+void interactive(char *str, char **env)
 {
 	const char *prompt = "#s_shell$ ";
 	int n;
@@ -88,21 +87,20 @@ void interactive(char *str)
 			break;
 		}
 		if (*buffer != '\n')
-		{
-			argv = tokenizer(buffer);
+		{	argv = tokenizer(buffer);
 			if (!argv)
-			{		
+			{
 			}
 			else
 			{
 				if (!find_path(argv, buffer, str))
-					break;
+					continue;
 				if (!argv[0])
 				{
 				}
 				else
 				{
-					if (!processes(str, argv))
+					if (!processes(str, argv, env))
 					{
 						_freeStr(argv, tokenCount(buffer));
 						break;
@@ -119,10 +117,11 @@ void interactive(char *str)
  * processes - starts and ends parent and child processes
  * @str: the name of the program
  * @argv: array containing the commands and args
+ * @env: environment variable
  * Return: 1 = success, 0 = failure
  */
 
-int processes(char *str, char **argv)
+int processes(char *str, char **argv, char **env)
 {
 	int status;
 	pid_t cpid;
@@ -131,11 +130,11 @@ int processes(char *str, char **argv)
 	if (cpid == -1)
 	{
 		perror(str);
-		return(0);
+		return (0);
 	}
 	if (cpid == 0)
 	{
-		if (execve(argv[0], argv, NULL) == -1)
+		if (execve(argv[0], argv, env) == -1)
 		{
 			perror(str);
 			return (0);

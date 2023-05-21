@@ -4,13 +4,13 @@
 /**
  * _freeStr - free memory
  * @mem: the memory to be freed
+ * @n: number of strings to be freed
  */
-
-void _freeStr(char **mem , int n)
+void _freeStr(char **mem, int n)
 {
 	int i = 0;
 
-	for(; i <= n; i++)
+	for (; i <= n; i++)
 	{
 		free(mem[i]);
 	}

@@ -53,12 +53,11 @@ dir_t *path_dir_ls(const char *path)
 	dir_t *head = NULL;
 	char *token;
 
-
-       	token = strtok((char *)path, ":");
-        while (token)
-        {
-        	add_node_end(&head, token);
-                token = strtok(NULL, ":");
-        }
+	token = strtok((char *)path, ":");
+	while (token)
+	{
+		add_node_end(&head, token);
+		token = strtok(NULL, ":");
+	}
 	return (head);
 }
