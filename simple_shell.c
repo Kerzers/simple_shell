@@ -90,14 +90,13 @@ void interactive(char *str, char **env)
 		{	argv = tokenizer(buffer);
 			if (!argv)
 			{
+				_freeStr(argv, tokenCount(buffer));
 			}
 			else
 			{
 				if (!find_path(argv, buffer, str))
-					continue;
-				if (!argv[0])
 				{
-				}
+				}				
 				else
 				{
 					if (!processes(str, argv, env))
@@ -106,7 +105,7 @@ void interactive(char *str, char **env)
 						break;
 					}
 				}
-				_freeStr(argv, tokenCount(buffer));
+				/*_freeStr(argv, tokenCount(buffer));*/
 			}
 		}
 	}
@@ -136,12 +135,17 @@ int processes(char *str, char **argv, char **env)
 	{
 		if (execve(argv[0], argv, env) == -1)
 		{
+			printf("inside execve\n");
 			perror(str);
 			return (0);
 		}
 	}
 	else
+	{
+		printf("before wait\n");
 		wait(&status);
+		printf("after wait\n");
+	}
 	return (1);
 }
 /**
