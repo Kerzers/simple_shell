@@ -7,8 +7,9 @@
 
 ssize_t _getline(char **buffer, size_t *n, FILE *stream)
 {       
-        int fd;
+        int fd, size = 1024;
 	ssize_t bRead;
+	char *newBuffer;
 	size_t readSize;
 	char *myBuff;
 
@@ -23,12 +24,21 @@ ssize_t _getline(char **buffer, size_t *n, FILE *stream)
 		*buffer = malloc(sizeof(char) * 1024);
                 if (!*buffer)
                         return(-1);
-		for (i = 0; i < 1024; i++)
+		for (i = 0; i < size; i++)
 		{
 			bRead = read(fd, *buffer[i], 1);
-			if (*buffer[i] != EOF)
-				return (i);
+			if (bRead == -1)
+			{
+				return (-1);
+			}
+			if (*buffer[i] == EOF)
+			{
+				bRead = (ssize_t)i;
+				return (bRead);
+			}
 		}
+
+		newBuffer = _realloc();
 
 	}
 	else /* User allocated buffer size dynamically */
