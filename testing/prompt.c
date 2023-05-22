@@ -6,6 +6,7 @@
 #include <unistd.h>
 #include <fcntl.h>
 #include <sys/types.h>
+#include "main.h"
 
 /**
  * main - reads line and prints it in terminal
@@ -17,17 +18,21 @@ int main(void)
         ssize_t n;
         size_t size = 0;
         char *buffer = NULL;
-	pid_t cpid;
+/*	pid_t cpid;
 	char *argv[2];
-	int status;
+	int status;*/
 
-	while (1)
-	{
 	printf("#cisfun$ ");
-        n = getline(&buffer, &size, stdin);
+        n = _getline(&buffer, &size, stdin);
         if (n == -1)
-                break;
-	argv[0] =strtok(buffer, "\n");
+	{
+		printf("Error %ld\n", n);
+                return (0);
+	}
+
+	printf("Buffer: %s\n", buffer);
+
+	/*argv[0] =strtok(buffer, "\n");
 	argv[1] = NULL;
 	cpid = fork();
 	if (cpid == -1)
@@ -43,8 +48,7 @@ int main(void)
  		}
 	}
 	else
-		wait(&status);
-	}
+		wait(&status);*/
         free(buffer);
         return (0);
 }

@@ -26,6 +26,8 @@ typedef struct path_dir
         struct path_dir *next;
 } dir_t;
 
+void *_realloc(void *ptr, unsigned int old_size, unsigned int new_size);
+ssize_t _getline(char **buffer, size_t *n, FILE *stream);
 void interactive(char *str);
 void non_interactive(char *str);
 int processes(char *str, char **argv);
