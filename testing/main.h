@@ -12,6 +12,8 @@
 #include <sys/stat.h>
 #include <limits.h>
 
+#define BUFFER_SIZE 1024
+
 extern char **environ;
 
 /**

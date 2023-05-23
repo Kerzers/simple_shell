@@ -1,4 +1,5 @@
 #include "main.h"
+#include <string.h>
 #include <errno.h>
 
 /**
@@ -7,9 +8,9 @@
 
 ssize_t _getline(char **buffer, size_t *n, FILE *stream)
 {       
-        int fd; 
-	int size = 100;
+        int fd, i, size = BUFFER_SIZE; 
 	ssize_t bRead, count = 0;
+	char buf[BUFFER_SIZE];
 
         if (stream == stdin)
                 fd = STDIN_FILENO;
@@ -22,30 +23,47 @@ ssize_t _getline(char **buffer, size_t *n, FILE *stream)
 		*buffer = malloc(sizeof(char) * size);
                 if (!*buffer)
                         return(-1);
-	printf("Before the bRead\n");		
-		bRead = read(fd, *buffer, size);
-		if (bRead == -1)
-			return (bRead);
-		count += bRead;
-	printf("bRead: %ld\n", bRead);
-		while (bRead != 0)
-		{
-			if (bRead < size)
-			{
-				printf("Count returned inside loop: %ld\n", count);
-				printf("buff inside return after realloc: %s\n", *buffer);
-				return (count);
-			}
-			printf("buffer inside while before realloc: %s\n", *buffer);
-			*buffer = _realloc(*buffer, size, size + 100);
-			size += 100;
-			printf("buff inside while after realloc: %s\n", *buffer);
-			bRead = read(fd, *buffer, size);
-			if (bRead == -1)
-				return (bRead);
+		
+		while ((bRead = read(fd, &buf, BUFFER_SIZE)) > 0)
+		{		
 			count += bRead;
-			printf("Count inside while after realloc: %ld\n", count);
+			if (count <= bRead)
+			{
+				*buffer = strdup(buf);
+				if (!*buffer)
+					return (-1);
+			}
+			else
+			{
+				*buffer = strcat(*buffer, buf);
+				if (!*buffer)
+                                        return (-1);
+			}
+			
+			if (*(*buffer + (count - 1)) == '\n')
+			{
+				*(*buffer + count) = '\0';
+				return(count);
+			}
+
+			*buffer = _realloc(*buffer, size, size + BUFFER_SIZE);
+			size += BUFFER_SIZE;
+
+			for (i = 0; i < BUFFER_SIZE; i++)
+				buf[i] = '\0';
 		}
+	}
+	else
+	{
+		while ((bRead = read(fd, &buf, BUFFER_SIZE)) > 0)
+                {
+			if (*n < bRead)
+			{
+				*buffer = _realloc(*buffer, *n, *n + BUFFER_SIZE);
+				*buffer = strdup(buf);
+			}
+		}
+
 	}
 	printf("Count returned outside: %ld\n", count);
 	return (count);

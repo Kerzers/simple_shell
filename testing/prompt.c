@@ -30,7 +30,7 @@ int main(void)
                 return (0);
 	}
 
-	printf("Buffer: %s\n", buffer);
+	printf("Buffer: %s\n%ld\n", buffer, n);
 
 	/*argv[0] =strtok(buffer, "\n");
 	argv[1] = NULL;
