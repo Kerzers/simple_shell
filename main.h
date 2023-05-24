@@ -22,8 +22,8 @@ extern char **environ;
 
 typedef struct path_dir
 {
-        char *dir;
-        struct path_dir *next;
+	char *dir;
+	struct path_dir *next;
 } dir_t;
 void errors(char *program, char iter, char *cmd);
 void handle_sigtstp(int sig);
