@@ -81,22 +81,17 @@ void non_interactive(char *str, char **env)
 
 void interactive(char *str, char **env)
 {
-	const char *prompt = "#s_shell$ ";
 	int n, iter = 0;
-	char *buffer = NULL;
-	char **argv;
+	char **argv, *buffer = NULL;
 	size_t size = 0;
 
 	while (1)
-	{
-		iter++;
-		write(STDOUT_FILENO, prompt, 10);
+	{	iter++;
+		write(STDOUT_FILENO, "#s_shell$ ", 10);
 		n = getline(&buffer, &size, stdin);
 		signal(SIGINT, handle_sigint);
-		/*signal(SIGTSTP, handle_sigtstp);*/
 		if (n == -1)
-		{
-			_putchar('\n');
+		{	_putchar('\n');
 			break;
 		}
 		if (*buffer != '\n')
@@ -107,6 +102,11 @@ void interactive(char *str, char **env)
 			{	free(buffer);
 				_freeStr(argv, tokenCount(buffer));
 				exit(0);
+			}
+			if (_strcmp(argv[0], "env") == 0 || _strcmp(argv[0], "printenv") == 0)
+			{	print_env();
+				_freeStr(argv, tokenCount(buffer));
+				continue;
 			}
 			if (!find_path(argv, buffer, str, iter))
 				continue;
