@@ -27,7 +27,7 @@ ssize_t _getline(char **buffer, size_t *n, FILE *stream)
 		while ((bRead = read(fd, &buf, BUFFER_SIZE)) > 0)
 		{		
 			count += bRead;
-			if (count <= bRead)
+			if (count == bRead)
 			{
 				*buffer = strdup(buf);
 				if (!*buffer)
@@ -55,15 +55,46 @@ ssize_t _getline(char **buffer, size_t *n, FILE *stream)
 	}
 	else
 	{
+		for (i = 0; i < *n; i++)
+                          buffer[i] = '\0';
 		while ((bRead = read(fd, &buf, BUFFER_SIZE)) > 0)
                 {
-			if (*n < bRead)
+			count += bRead;
+			if (count == bRead)
 			{
+				if (*n < bRead)
+				{
 				*buffer = _realloc(*buffer, *n, *n + BUFFER_SIZE);
+				*n += BUFFER_SIZE;
 				*buffer = strdup(buf);
+				}
+				else
+				{
+				*buffer = strdup(buf);
+				return (count);
+				}
+			}
+			else
+			{
+				if (*n < bRead)
+				{
+				*buffer = _realloc(*buffer, *n, * + BUFFER_SIZE);
+				*n += BUFFER_SIZE;
+				*buffer = strcat(*buffer, buf);
+				}
+				else
+				{
+					*buffer = strcat(*buffer, buf);
+					return (count);
+				}
+				if (*(*buffer + count - 1) == '\n' && *n == bRead)
+				{
+					*buffer = realloc(*buffer, *n, *n + 1);				
+					*(*buffer + count) = '\0';
+					return (count);
+				}	
 			}
 		}
-
 	}
 	printf("Count returned outside: %ld\n", count);
 	return (count);

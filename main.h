@@ -11,7 +11,7 @@
 #include <sys/wait.h>
 #include <sys/stat.h>
 #include <limits.h>
-
+#include <errno.h>
 extern char **environ;
 
 /**
@@ -25,7 +25,8 @@ typedef struct path_dir
         char *dir;
         struct path_dir *next;
 } dir_t;
-
+void handle_sigtstp(int sig);
+void handle_sigint(int sig);
 void interactive(char *str, char **env);
 int tokenCount(char *str);
 void non_interactive(char *str, char **env);

@@ -10,7 +10,6 @@
 
 int main(int ac, char **argv, char **env)
 {
-
 	if (isatty(STDIN_FILENO))
 	{
 		if (ac == 1)
@@ -86,6 +85,8 @@ void interactive(char *str, char **env)
 	{
 		write(STDOUT_FILENO, prompt, 10);
 		n = getline(&buffer, &size, stdin);
+		signal(SIGINT, handle_sigint);
+		/*signal(SIGTSTP, handle_sigtstp);*/
 		if (n == -1)
 		{
 			_putchar('\n');
