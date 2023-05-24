@@ -59,6 +59,11 @@ void non_interactive(char *str, char **env)
 	}
 	else
 	{
+		if (_strcmp(argv[0], "exit") == 0)
+			{	free(buffer);
+				_freeStr(argv, tokenCount(buffer));
+				exit(0);
+			}
 		if (find_path(argv, buffer, str, iter))
 		{
 			processes(str, argv, env);
