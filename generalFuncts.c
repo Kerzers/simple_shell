@@ -99,13 +99,14 @@ char *_getenv(const char *name)
  *@argv: array string of command and args
  *@buffer: line typed by the user
  *@str: name of the program
+ *@iter: number of iter
  *Return: 1 (success), otherwise 0
  */
-int find_path(char **argv, char *buffer, char *str)
+int find_path(char **argv, char *buffer, char *str, int iter)
 {
 	char *abs_path;
 	struct stat st;
-	int iter = 12;
+	char _iter = iter + '0';
 
 	if (stat(argv[0], &st) != 0)
 	{
@@ -113,7 +114,7 @@ int find_path(char **argv, char *buffer, char *str)
 		if (!abs_path)
 		{
 			free(abs_path);
-			errors(str, iter, argv[0]);
+			errors(str, _iter, argv[0]);
 			/*perror(str);  ./hsh: 1:  argv[0]: not found*/
 			_freeStr(argv, tokenCount(buffer));
 			return (0);

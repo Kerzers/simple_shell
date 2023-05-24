@@ -25,7 +25,7 @@ typedef struct path_dir
         char *dir;
         struct path_dir *next;
 } dir_t;
-void errors(char *program, int iter, char *cmd);
+void errors(char *program, char iter, char *cmd);
 void handle_sigtstp(int sig);
 void handle_sigint(int sig);
 void interactive(char *str, char **env);
@@ -40,7 +40,7 @@ void free_list(dir_t *head);
 char **tokenizer(char *buffer);
 int myStrLen(const char *str);
 void _freeStr(char **mem, int n);
-int find_path(char **argv, char *buffer, char *str);
+int find_path(char **argv, char *buffer, char *str, int iter);
 dir_t *add_node_end(dir_t **head, char *str);
 char *_getenv(const char *name);
 char *_strdup(char *src);

@@ -46,6 +46,7 @@ void non_interactive(char *str, char **env)
 	char *buffer = NULL;
 	char **argv;
 	size_t size = 0;
+	int iter = 1;
 
 	n = getline(&buffer, &size, stdin);
 	if (n == -1)
@@ -58,7 +59,7 @@ void non_interactive(char *str, char **env)
 	}
 	else
 	{
-		if (find_path(argv, buffer, str))
+		if (find_path(argv, buffer, str, iter))
 		{
 			processes(str, argv, env);
 			_freeStr(argv, tokenCount(buffer));
@@ -76,13 +77,14 @@ void non_interactive(char *str, char **env)
 void interactive(char *str, char **env)
 {
 	const char *prompt = "#s_shell$ ";
-	int n;
+	int n, iter = 0;
 	char *buffer = NULL;
 	char **argv;
 	size_t size = 0;
 
 	while (1)
 	{
+		iter++;
 		write(STDOUT_FILENO, prompt, 10);
 		n = getline(&buffer, &size, stdin);
 		signal(SIGINT, handle_sigint);
@@ -96,23 +98,22 @@ void interactive(char *str, char **env)
 		{	argv = tokenizer(buffer);
 			if (!argv)
 				continue;
-			else if (_strcmp(argv[0], "exit") == 0)
-			{
-				free(buffer);
+			if (_strcmp(argv[0], "exit") == 0)
+			{	free(buffer);
 				_freeStr(argv, tokenCount(buffer));
-				exit(1);
+				exit(0);
 			}
-			else if (!find_path(argv, buffer, str))
-					continue;
+			if (!find_path(argv, buffer, str, iter))
+				continue;
 			else
-				{
-					if (!processes(str, argv, env))
-					{
-						_freeStr(argv, tokenCount(buffer));
-						break;
-					}
+			{
+				if (!processes(str, argv, env))
+				{	_freeStr(argv, tokenCount(buffer));
+					free(buffer);
+					continue;
 				}
 			}
+		}
 	}
 	free(buffer);
 }

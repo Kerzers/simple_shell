@@ -6,11 +6,11 @@
  * @iter: numbers of prompt typed by the user
  * @cmd: command's name
  */
-void errors(char *program, int iter, char *cmd)
+void errors(char *program, char iter, char *cmd)
 {
 	write(STDERR_FILENO, program, myStrLen(program));
 	write(STDERR_FILENO, ": ", 2);
-	write(STDERR_FILENO, &iter, sizeof(iter));
+	write(STDERR_FILENO, &iter, sizeof(char));
 	write(STDERR_FILENO, ": ", 2);
 	write(STDERR_FILENO, cmd, myStrLen(cmd));
 	write(STDERR_FILENO, ": not found\n", 12);
