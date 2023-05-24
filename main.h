@@ -25,6 +25,7 @@ typedef struct path_dir
         char *dir;
         struct path_dir *next;
 } dir_t;
+void errors(char *program, int iter, char *cmd);
 void handle_sigtstp(int sig);
 void handle_sigint(int sig);
 void interactive(char *str, char **env);

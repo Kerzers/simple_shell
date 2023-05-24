@@ -105,6 +105,7 @@ int find_path(char **argv, char *buffer, char *str)
 {
 	char *abs_path;
 	struct stat st;
+	int iter = 12;
 
 	if (stat(argv[0], &st) != 0)
 	{
@@ -112,7 +113,8 @@ int find_path(char **argv, char *buffer, char *str)
 		if (!abs_path)
 		{
 			free(abs_path);
-			perror(str); /* ./hsh : 1 :  argv[0]: not found*/
+			errors(str, iter, argv[0]);
+			/*perror(str);  ./hsh: 1:  argv[0]: not found*/
 			_freeStr(argv, tokenCount(buffer));
 			return (0);
 		}
