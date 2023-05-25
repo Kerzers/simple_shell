@@ -45,6 +45,8 @@ int find_path(char **argv, char *buffer, char *str, int iter);
 dir_t *add_node_end(dir_t **head, char *str);
 char *_getenv(const char *name);
 char *_strdup(char *src);
+int counter(int len, char **argv);
+void __exit(char **argv, char *buffer);
 char *_strcat(char *dest, char *src);
 char *_strcpy(char *dest, char *src);
 int cmdLinePath(char **argv, char *str);

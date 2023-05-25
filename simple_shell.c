@@ -46,7 +46,7 @@ void non_interactive(char *str, char **env)
 	char *buffer = NULL;
 	char **argv;
 	size_t size = 0;
-	int iter = 1;
+	int iter = 1, count = 0, i = 0, len = 0;
 
 	n = getline(&buffer, &size, stdin);
 	if (n == -1)
@@ -55,20 +55,30 @@ void non_interactive(char *str, char **env)
 	argv = tokenizer(buffer);
 	if (!argv)
 	{
-		perror(str);
 	}
 	else
 	{
 		if (_strcmp(argv[0], "exit") == 0)
-			{	free(buffer);
-				_freeStr(argv, tokenCount(buffer));
-				exit(0);
-			}
-		if (find_path(argv, buffer, str, iter))
-		{
-			processes(str, argv, env);
-			_freeStr(argv, tokenCount(buffer));
-		}
+			__exit(argv, buffer);
+
+				len  = tokenCount(buffer);
+				count = counter(len, argv);
+				if (count == len)
+				{
+					argv[1] = NULL;
+					for (i = 0; i < len; i++)
+					{
+					if (find_path(argv, buffer, str, iter))
+						processes(str, argv, env);
+					}
+					_freeStr(argv, len);
+				}
+				else
+				{
+					if (find_path(argv, buffer, str, iter))
+						processes(str, argv, env);
+					_freeStr(argv, len);
+				}
 	}
 	free(buffer);
 }
@@ -99,9 +109,9 @@ void interactive(char *str, char **env)
 			if (!argv)
 				continue;
 			if (_strcmp(argv[0], "exit") == 0)
-			{	free(buffer);
+			{
 				_freeStr(argv, tokenCount(buffer));
-				exit(0);
+				break;
 			}
 			if (_strcmp(argv[0], "env") == 0 || _strcmp(argv[0], "printenv") == 0)
 			{	print_env();
