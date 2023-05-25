@@ -45,11 +45,10 @@ void non_interactive(char *str, char **env)
 	ssize_t n;
 	char *buffer = NULL;
 	char **argv;
-	size_t size = 1024;
+	size_t size = 0;
 	int iter = 1, count = 0, i = 0, len = 0;
 
-	buffer = malloc(size * sizeof(char));
-	n = read(STDIN_FILENO, buffer, 1024);
+	n = getline(&buffer, &size, stdin);
 	if (n == -1)
 		return;
 	argv = tokenizer(buffer);
