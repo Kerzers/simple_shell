@@ -36,3 +36,39 @@ int counter(int len, char **argv)
 	}
 	return (count);
 }
+
+/**
+ * combiner - creates a string from user inputs
+ * Return: combined string
+ */
+char *combiner()
+{
+	size_t size = 0;
+	ssize_t bRead = 0, count = 0;
+	char *buf = NULL, *buffer;
+
+	while ((bRead = getline(&buf, &size, stdin)) != -1)
+	{
+		count += bRead;
+		if (count == bRead)
+		{
+			buffer = _strdup(buf);
+			if (!buffer)
+			{
+				free(buf);
+				return (NULL);
+			}
+		}
+		else
+		{
+			buffer = _strcat(buffer, buf);
+			if (!buffer)
+			{
+				free(buf);
+				return (NULL);
+			}
+		}
+	}
+	free(buf);
+	return (buffer);
+}

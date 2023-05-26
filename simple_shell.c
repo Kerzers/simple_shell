@@ -42,18 +42,16 @@ int main(int ac, char **argv, char **env)
 
 void non_interactive(char *str, char **env)
 {
-	ssize_t n;
 	char *buffer = NULL;
 	char **argv;
-	size_t size = 1024;
 	int iter = 1, count = 0, i = 0, len = 0;
 
-
-	buffer = malloc(sizeof(char *) * size);
-/*	n = getline(&buffer, &size, stdin);*/
-	n = read(STDIN_FILENO, buffer, size);
-	if (n == -1)
-		return;
+	buffer = combiner();
+	if (!buffer)
+	{
+		free(buffer);
+		exit(-1);
+	}
 
 	argv = tokenizer(buffer);
 	if (!argv)
